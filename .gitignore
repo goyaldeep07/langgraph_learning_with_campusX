@@ -1,0 +1,71 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Environment / config secrets
+*.env
+.env.*
+config.yaml
+config.local.*
+secrets.json
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Vector DB / AI cache
+chroma/
+chroma_db/
+faiss_index/
+*.faiss
+*.hnsw
+milvus_data/
+weaviate_data/
+pinecone_cache/
+vectordb/
+
+# LangChain / LLM logs & cache
+langchain.db
+langchain_cache/
+.openai_cache/
+.llm_cache/
+logs/
+*.log
+
+# Model files
+*.bin
+*.pth
+*.pt
+*.onnx
+*.ckpt
+*.safetensors
+
+# Data dumps
+*.sqlite
+*.db
+*.csv
+*.parquet
+*.jsonl
+
+# IDE settings
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
