@@ -22,10 +22,17 @@ class SentimentSchema(BaseModel):
 
     sentiment: Annotated[str, Field(Literal["Positive", "Negative"])]
 
+
 class DiagnosisSchema(BaseModel):
-    issue_type: Literal["UX", "Performance", "Bug", "Support", "Other"] = Field(description='The category of issue mentioned in the review')
-    tone: Literal["angry", "frustrated", "disappointed", "calm"] = Field(description='The emotional tone expressed by the user')
-    urgency: Literal["low", "medium", "high"] = Field(description='How urgent or critical the issue appears to be')
+    issue_type: Literal["UX", "Performance", "Bug", "Support", "Other"] = Field(
+        description="The category of issue mentioned in the review"
+    )
+    tone: Literal["angry", "frustrated", "disappointed", "calm"] = Field(
+        description="The emotional tone expressed by the user"
+    )
+    urgency: Literal["low", "medium", "high"] = Field(
+        description="How urgent or critical the issue appears to be"
+    )
 
 
 model_with_structured_output = model.with_structured_output(SentimentSchema)
@@ -68,10 +75,10 @@ def positive_response(state: ReviewState):
     prompt = f"""Write a warm thank-you message in response to this review:
     \n\n\"{state['review']}\"\n
     Also, kindly ask the user to leave feedback on our website."""
-    
+
     response = model.invoke(prompt).content
 
-    return {'response': response}
+    return {"response": response}
 
 
 def run_diagnosis(state: ReviewState):
@@ -83,7 +90,7 @@ def run_diagnosis(state: ReviewState):
 
 
 def negative_response(state: ReviewState):
-    diagnosis = state['diagnosis']
+    diagnosis = state["diagnosis"]
 
     prompt = f"""You are a support assistant.
     The user had a '{diagnosis['issue_type']}' issue, sounded '{diagnosis['tone']}', and marked urgency as '{diagnosis['urgency']}'.
@@ -91,7 +98,7 @@ def negative_response(state: ReviewState):
     """
     response = model.invoke(prompt).content
 
-    return {'response': response}
+    return {"response": response}
 
 
 def check_sentiment(
@@ -122,13 +129,12 @@ graph.add_edge("run_diagnosis", "negative_response")
 graph.add_edge("negative_response", END)
 
 
-
 # Compile the workflow
 workflow = graph.compile()
 
 # Initial input to the workflow
-initial_state={
-    'review': "I’ve been trying to log in for over an hour now, and the app keeps freezing on the authentication screen. I even tried reinstalling it, but no luck. This kind of bug is unacceptable, especially when it affects basic functionality."
+initial_state = {
+    "review": "I’ve been trying to log in for over an hour now, and the app keeps freezing on the authentication screen. I even tried reinstalling it, but no luck. This kind of bug is unacceptable, especially when it affects basic functionality."
 }
 
 # Run the workflow
